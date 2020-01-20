@@ -1,0 +1,3 @@
+[submodule "lib/ForecastNucleoFramework"]
+	path = lib/ForecastNucleoFramework
+	url = git@gitlab.com:altairLab/elasticteam/ForecastNucleoFramework.git
