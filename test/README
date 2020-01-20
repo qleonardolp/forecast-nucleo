@@ -9,3 +9,11 @@ in the development cycle.
 
 More information about PIO Unit Testing:
 - https://docs.platformio.org/page/plus/unit-testing.html
+
+
+## How to use this directory
+
+In this direcotry will be all the unit tests made for the 
+ForecastNucleoFramework library.
+
+In this direcotry there are no examples.
