@@ -2,20 +2,38 @@
 #include <mbed.h>
 
 int main() {
-    DigitalOut led(LED1);
+    
     forecast::App app;
 
-    float d = 12.0f;
+    float d = NAN;
 
-    app.setLogger([&](const forecast::Hardware*, const control::Control*,
+    app.setLogger([&d](const forecast::Hardware*, const control::Control*,
                      const control::Control*) {
         return std::vector<float>{6.f, 1.f, d};
     });
 
-    d = app.requireFloatValue("hello");
-    
-    while (true) {
-        app.logInfo();
-    }
+    while(std::isnan(d)) 
+        d = app.requireFloatValue("hello");
 
+    // Timer t;
+    // while (true) {
+    //     t.start();
+    //     app.logInfo();
+    //     t.stop();
+    //     d = 1.f/t.read();
+    //     // wait(0.5);
+    // }
+
+    while (true) {
+        d += .1f;
+        app.logInfo();   
+        wait(0.002); // 5kh
+    }
 }
+
+// #include <forecast/debug.hpp>
+// int main() {
+//     DEBUG_INFO("0123456789\r\n");
+//     // Serial debug(PC_10, PC_11, 9600);
+//     // debug.printf("0123456789\r\n");
+// }
