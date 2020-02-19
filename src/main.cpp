@@ -1,27 +1,24 @@
 #include <mbed.h>
-#include <control/ForcePID.hpp>
 #include <forecast/App.hpp>
+#include <forecast/controllers/ForcePID.hpp>
 #include <memory>
 
 int main() {
     forecast::App app(256, 256);
 
-    float d = NAN;
-
-    app.setLogger([&d](const forecast::Hardware* hw, const control::Control*,
-                       const control::Control*) {
-        return std::vector<float>{d + 1.f, d + 2.f, d + 3.f, d + 4.f, d + 5.f,
-                                  d + 6.f/* , d + 7.f, d + 8.f */
-                                  , hw->getT(), hw->getDT()};
+    app.setLogger([](const forecast::Hardware* hw,
+                       const forecast::Controller*,
+                       const forecast::Controller*) {
+        return std::vector<float>{1.f,        2.f,        3.f,
+                                  4.f,        5.f,        6.f /* , 7.f, 8.f */,
+                                  hw->getT(), hw->getDT()};
     });
 
-    app.setMotor(
-        std::unique_ptr<control::Control>(new control::ForcePID(nullptr)));
-    app.setEnviorment(
-        std::unique_ptr<control::Control>(new control::ForcePID(nullptr)));
+    app.setMotor(new forecast::ForcePID);
+    app.setEnviorment(new forecast::ForcePID);
 
-    while (std::isnan(d))
-        d = app.requireFloatValue("hello");
+    app.requireMotorParams();
+    app.requireEnvironmentParams();
 
     app.execControlLoop(2000);
 }
