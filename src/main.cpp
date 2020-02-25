@@ -4,7 +4,7 @@
 #include <memory>
 
 int main() {
-    forecast::App app(256, 256);
+    forecast::App app;
 
     app.setLogger([](const forecast::Hardware* hw,
                        const forecast::Controller*,
