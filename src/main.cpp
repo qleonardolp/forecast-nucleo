@@ -14,13 +14,23 @@ int main() {
                                   hw->getT(), hw->getDT()};
     });
 
+    app.setEnvRefGen([](size_t cycle){
+        return utility::ddvar();
+    });
+    app.setMotorRefGen([](size_t cycle){
+        return utility::ddvar();
+    });
+
     app.setMotor(new forecast::ForcePID);
     app.setEnviorment(new forecast::ForcePID);
 
+    app.waitForHandshake();
+
     app.requireMotorParams();
     app.requireEnvironmentParams();
+    
 
-    app.execControlLoop(2000);
+    app.execControlLoop(2500);
 }
 
 // #include <forecast/debug.hpp>
