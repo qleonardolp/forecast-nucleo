@@ -29,13 +29,5 @@ int main() {
     app.requireMotorParams();
     app.requireEnvironmentParams();
     
-
     app.execControlLoop(2500);
 }
-
-// #include <forecast/debug.hpp>
-// int main() {
-//     DEBUG_INFO("0123456789\r\n");
-//     // Serial debug(PC_10, PC_11, 9600);
-//     // debug.printf("0123456789\r\n");
-// }
