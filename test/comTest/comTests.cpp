@@ -1,5 +1,7 @@
 #include <unity.h>
 #include <forecast/com.hpp>
+#include <functional>
+#include <random>
 #include <string>
 
 using namespace forecast;
@@ -45,11 +47,73 @@ void comUnescape() {
     }
 }
 
+/**
+ * @brief It creates numberOfStrings byte's strings of byteStrLength bytes each,
+ * it trys to escape that, and it checks if the unescaped variable is the same
+ * of the original.
+ *
+ * @param byteStrLength
+ * @param numberOfStrings
+ */
+void comEscapeUnescape(uint byteStrLength, uint numberOfStrings) {
+    std::default_random_engine generator;
+    std::uniform_int_distribution<uint8_t> distribution(0, 255);
+    auto byte = std::bind(distribution, generator);
+
+    auto str = new uint8_t[byteStrLength];       // first string
+    auto checkStr = new uint8_t[byteStrLength];  // final string
+
+    // in the worst case I escape all the characters
+    auto escaped = new uint8_t[2 * byteStrLength];
+
+    for (size_t i = 0; i < numberOfStrings; ++i) {
+        // generating the random number
+        for (size_t j = 0; j < byteStrLength; ++j)
+            str[j] = byte();
+
+        // escaping the stringt
+        auto sz = escape(str, escaped, byteStrLength, 2 * byteStrLength);
+
+        // unescaping the escaped string
+        sz = unescape(escaped, checkStr, sz, byteStrLength);
+
+        // assert on length
+        TEST_ASSERT_EQUAL_MESSAGE(
+            byteStrLength, sz,
+            "the unescaped size is not equal to the pre escaping string");
+
+        // check if the bytes are ok
+        TEST_ASSERT_EQUAL_UINT8_ARRAY(str, checkStr, byteStrLength);
+    }
+
+    delete str;
+    delete checkStr;
+    delete escaped;
+}
+
 int main() {
+    auto test_10_1          = [](){comEscapeUnescape(10, 1);};
+    auto test_10_2          = [](){comEscapeUnescape(10, 2);};
+    auto test_10_3          = [](){comEscapeUnescape(10, 3);};
+    auto test_10_10         = [](){comEscapeUnescape(10, 10);};
+    auto test_100_10        = [](){comEscapeUnescape(100, 10);};
+    auto test_100_100       = [](){comEscapeUnescape(100, 100);};
+    auto test_1000_100      = [](){comEscapeUnescape(1000, 1000);};
+    auto test_1000_1000     = [](){comEscapeUnescape(1000, 10000);};
+    auto test_1000_10000    = [](){comEscapeUnescape(1000, 100000);};
+
     UNITY_BEGIN();
 
     RUN_TEST(comEscape);
     RUN_TEST(comUnescape);
-
+    RUN_TEST(test_10_1);
+    RUN_TEST(test_10_2);
+    RUN_TEST(test_10_3);
+    RUN_TEST(test_10_10);
+    RUN_TEST(test_100_10);
+    RUN_TEST(test_100_100);
+    RUN_TEST(test_1000_100);
+    RUN_TEST(test_1000_1000);
+    RUN_TEST(test_1000_10000);
     UNITY_END();
 }
