@@ -6,7 +6,6 @@
 
 int main() {
     forecast::App app;
-
     app.setLogger([](const forecast::Hardware* hw, const forecast::Controller*,
                      const forecast::Controller*) {
         /* return std::vector<float>{hw->getTauM().val,
@@ -43,7 +42,9 @@ int main() {
     app.requireMotorParams();
     app.requireEnvironmentParams();
 
-    app.execControlLoop(2500);
+    auto freq = app.requireFloatValue("frequency of the loop");
+
+    app.execControlLoop(static_cast<ulong>(freq));
 }
 
 // #include <forecast/debug.hpp>

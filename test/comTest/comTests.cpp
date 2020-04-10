@@ -8,9 +8,10 @@ using namespace forecast;
 using namespace forecast::com;
 
 void comEscape() {
-    uint8_t unescaped[] = {0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x1b, 0x1b};
-    uint8_t groundTrue[] = {0x00, 0x00, 0x01, 0x1b, 0x02, 0x1b,
-                            0x03, 0x04, 0x1b, 0x1b, 0x1b, 0x1b};
+    uint8_t unescaped[] = {0x00, 0x00, 0x01, 0x02, 0x03,
+                           0x04, 0x1b, 0x1b, 0x39, 0x03};
+    uint8_t groundTrue[] = {0x00, 0x00, 0x01, 0x1b, 0x02, 0x1b, 0x03, 0x04,
+                            0x1b, 0x1b, 0x1b, 0x1b, 0x39, 0x1b, 0x03};
     uint8_t escaped[24];  // 12 should be enough
 
     auto sz = escape(unescaped, escaped, sizeof(unescaped), 24);
@@ -91,21 +92,41 @@ void comEscapeUnescape(uint byteStrLength, uint numberOfStrings) {
     delete escaped;
 }
 
+void checkEtxTest() {
+    uint8_t t1[] = {0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x1b, 0x1b, 0x03};
+    uint8_t f1[] = {0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x1b, 0x1b, 0x1b, 0x03};
+    uint8_t t2[] = {0x02, 0x04, 0x03};
+    uint8_t f2[] = {0x02, 0x1b, 0x03};
+
+    #define T(X) TEST_ASSERT(com::checkEtx((X), sizeof((X))))
+    #define F(X) TEST_ASSERT_FALSE(com::checkEtx((X), sizeof((X))))
+
+    T(t1);
+    T(t2);
+
+    F(f1);
+    F(f2);
+
+    #undef T
+    #undef F
+};
+
 int main() {
-    auto test_10_1          = [](){comEscapeUnescape(10, 1);};
-    auto test_10_2          = [](){comEscapeUnescape(10, 2);};
-    auto test_10_3          = [](){comEscapeUnescape(10, 3);};
-    auto test_10_10         = [](){comEscapeUnescape(10, 10);};
-    auto test_100_10        = [](){comEscapeUnescape(100, 10);};
-    auto test_100_100       = [](){comEscapeUnescape(100, 100);};
-    auto test_1000_100      = [](){comEscapeUnescape(1000, 1000);};
-    auto test_1000_1000     = [](){comEscapeUnescape(1000, 10000);};
-    auto test_1000_10000    = [](){comEscapeUnescape(1000, 100000);};
+    auto test_10_1 = []() { comEscapeUnescape(10, 1); };
+    auto test_10_2 = []() { comEscapeUnescape(10, 2); };
+    auto test_10_3 = []() { comEscapeUnescape(10, 3); };
+    auto test_10_10 = []() { comEscapeUnescape(10, 10); };
+    auto test_100_10 = []() { comEscapeUnescape(100, 10); };
+    auto test_100_100 = []() { comEscapeUnescape(100, 100); };
+    auto test_1000_100 = []() { comEscapeUnescape(1000, 1000); };
+    auto test_1000_1000 = []() { comEscapeUnescape(1000, 10000); };
+    auto test_1000_10000 = []() { comEscapeUnescape(1000, 100000); };
 
     UNITY_BEGIN();
 
     RUN_TEST(comEscape);
     RUN_TEST(comUnescape);
+    RUN_TEST(checkEtxTest);
     RUN_TEST(test_10_1);
     RUN_TEST(test_10_2);
     RUN_TEST(test_10_3);
