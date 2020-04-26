@@ -37,7 +37,7 @@ int main() {
     app.setMotor(new forecast::ForcePID);
     app.setEnviorment(new forecast::ForcePID);
 
-    app.waitForHandshake();
+    app.waitConnection();
 
     app.requireMotorParams();
     app.requireEnvironmentParams();
