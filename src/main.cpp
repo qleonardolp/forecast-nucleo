@@ -2,40 +2,36 @@
 #include <debug.hpp>
 #include <forecast/App.hpp>
 #include <forecast/controllers/ForcePID.hpp>
+#include <forecast/controllers/ImpedanceControl.hpp>
 #include <memory>
 
 int main() {
     forecast::App app;
     app.setLogger([](const forecast::Hardware* hw, const forecast::Controller*,
                      const forecast::Controller*) {
-        /* return std::vector<float>{hw->getTauM().val,
-                                  hw->getThetaM().val,
-                                  0.f,
-                                  0.f,
-                                  0.f,
-                                  0.f,
-                                  0.f,
-                                  0.f}; */
-        return std::vector<float>{1.f, 2.f, 3.f, 4.f, 5.f, 6.f, hw->getT(),
-                                  hw->getDT()};
-        /* hw->getThetaM().val, hw->getThetaE().val,
-          hw->getTauM().val, hw->getTauE().val, hw->getTauS().val,
-          hw->getT(), hw->getDT()}; */
+
+        return std::vector<float>{hw->getThetaM().val, hw->getT(), hw->getDT()}; 
     });
 
-    app.setEnvRefGen(
-        [](const forecast::Hardware* hw) { return utility::ddvar(); });
+    app.setEnvRefGen([](const forecast::Hardware* hw) { 
+            utility::ddvar test;
+            test.val = sin(2.0f * 3.14f * 2.0f * hw->getT());
+            test.dval = 0.0f;
+            test.ddval = 0.0f;
+            return test;
+    });
 
     app.setMotorRefGen([](const forecast::Hardware* hw) {
         utility::ddvar test;
-        test.val = 0.075f + 0.025f * sin(2.0f * 3.14f * 1.0f * hw->getT());
+        test.val = sin(2.0f * 3.14f * 2.0f * hw->getT());
         test.dval = 0.0f;
         test.ddval = 0.0f;
         return test;
     });
 
     app.setMotor(new forecast::ForcePID);
-    app.setEnviorment(new forecast::ForcePID);
+    // app.setEnviorment(new forecast::ForcePID);
+    app.setEnviorment(new forecast::ImpedanceControl);
 
     app.waitConnection();
 
