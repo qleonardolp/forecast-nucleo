@@ -11,7 +11,7 @@
 
 int main() {
     forecast::App app;
-    app.setLogger([](utility::ddvar motorRef, const forecast::Hardware* hw, 
+    app.setLogger([](float motorRef, const forecast::Hardware* hw, 
         const forecast::Controller* motor, forecast::Controller* env) {
         return std::vector<float>{
             hw->getT(), 
@@ -19,16 +19,12 @@ int main() {
             hw->getTauM(),
             hw->getThetaM(),
             hw->getThetaE(), 
-            motorRef.val
+            motorRef
         }; 
     });
 
     app.setEnvRefGen([](const forecast::Hardware* hw) { 
-        utility::ddvar test;
-        test.val = 0.0f;
-        test.dval = 0.0f;
-        test.ddval = 0.0f;
-        return test;
+        return 0.f;
     });
 
     app.setMotorRefGen([](const forecast::Hardware* hw) {
@@ -73,11 +69,7 @@ int main() {
         //     }
         // }
 
-        utility::ddvar test;
-        test.val = 0.0f;
-        test.dval = 0.0f;
-        test.ddval = 0.0f;
-        return test;
+        return 0.f;
     });
 
     app.setMotor(new forecast::ForcePID);
