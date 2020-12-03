@@ -11,19 +11,19 @@
 
 int main() {
     forecast::App app;
-    app.setLogger([](float motorRef, const forecast::Hardware* hw, 
+    app.setLogger([](float motorRef, const forecast::Hardware* hw,
         const forecast::Controller* motor, forecast::Controller* env) {
         return std::vector<float>{
-            hw->getT(), 
+            hw->getT(),
             hw->getTauS(),
             hw->getTauM(),
             hw->getThetaM(),
-            hw->getThetaE(), 
+            hw->getThetaE(),
             motorRef
-        }; 
+        };
     });
 
-    app.setEnvRefGen([](const forecast::Hardware* hw) { 
+    app.setEnvRefGen([](const forecast::Hardware* hw) {
         return 0.f;
     });
 
@@ -31,7 +31,7 @@ int main() {
         // utility::ddvar test;
         // float amplitude = 0.2;
         // float time = hw->getT();
-        // static float startTime = 0.0f; 
+        // static float startTime = 0.0f;
         // static float startTime2 = 0.0f;
 
         // int t = 5;
@@ -47,7 +47,7 @@ int main() {
         //     else if(time - startTime < 3*t)
         //         stepa = 4*amplitude;
         //     else
-        //         stepa = 2*amplitude;    
+        //         stepa = 2*amplitude;
         //     test.val = stepa;
         //     test.dval = 0.0f;
         //     test.ddval = 0.0f;
@@ -73,21 +73,14 @@ int main() {
     });
 
     app.setMotor(new forecast::ForcePID);
-    app.setEnviorment(new forecast::ImpedanceControl);
+    app.setEnvironment(new forecast::ImpedanceControl);
 
     app.waitConnection();
 
     app.requireMotorParams();
     app.requireEnvironmentParams();
 
-    auto freq = app.requireFloatValue("frequency of the loop");
+    auto freq = app.requireFloatValue("Loop frequency");
 
     app.execControlLoop(static_cast<ulong>(freq));
 }
-
-// #include <forecast/debug.hpp>
-// int main() {
-//     DEBUG_INFO("0123456789\r\n");
-//     // Serial debug(PC_10, PC_11, 9600);
-//     // debug.printf("0123456789\r\n");
-// }
