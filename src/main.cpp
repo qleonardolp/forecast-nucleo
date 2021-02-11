@@ -135,7 +135,7 @@ int main() {
     });
     
     app.setMotor(new forecast::ForcePID);
-    app.setEnviorment(new forecast::ImpedanceControl);
+    app.setEnvironment(new forecast::ImpedanceControl);
 
     app.waitConnection();
 
