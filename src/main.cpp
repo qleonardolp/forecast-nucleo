@@ -9,22 +9,14 @@
 #include <memory>
 
 void setInertiaTask(forecast::App &app);
+void setForecastTask(forecast::App &app);
 
 int main() {
     forecast::App app;
-    
+
     // set the task
-    setInertiaTask(app);
-
-    // Handshake with the PC
-    app.waitConnection();
-
-    // Motor Reference
-    // app.setMotorRefSweep();
-
-    // Require parameters for the controllers which are not already initialized
-    app.requireMotorParams();
-    app.requireEnvironmentParams();
+    // setInertiaTask(app);
+    setForecastTask(app);
 
     // Require the loop frequency
     auto freq = app.requireFloatValue("Loop frequency");
@@ -35,7 +27,7 @@ int main() {
 
 void setInertiaTask(forecast::App &app) {
     // Pick which values to log (time is logged as first value automatically)
-    app.setLogger([](float envRef, const forecast::Hardware* hw, 
+    app.setLogger([](float envRef, const forecast::Hardware* hw,
         const forecast::Controller* motor, forecast::Controller* env) {
         return std::vector<float>{
             hw->getTauM(),
@@ -51,11 +43,11 @@ void setInertiaTask(forecast::App &app) {
             // hw->getTauSensor(),
             // hw->getTauS(),
             // hw->getDDThetaE(),
-        }; 
+        };
     });
 
     // Hard-coded reference for the environment
-    app.setEnvRefGen([](const forecast::Hardware* hw) { 
+    app.setEnvRefGen([](const forecast::Hardware* hw) {
         float test = 0;
         static float t = 0.0;
 
@@ -75,7 +67,7 @@ void setInertiaTask(forecast::App &app) {
         // // SIN
         // test = sin(2.0*M_PI*0.5*t);
 
-        // // SWEEP GEN 
+        // // SWEEP GEN
         // float sweep_amplitude = 0.2f;
         // float sweep_duration = 20.0f;
         // float sweep_max_freq = 10.0f;
@@ -85,7 +77,7 @@ void setInertiaTask(forecast::App &app) {
         //     t += hw->DT;
         // }
         // test = sweep_amplitude * sin(2.0*M_PI*t*rect);
-        
+
         t += hw->getDT();
         return test;
     });
@@ -111,7 +103,7 @@ void setInertiaTask(forecast::App &app) {
         // SIN
         // test = 3*sin(2.0*M_PI*0.3*t);
 
-        // // SWEEP GEN 
+        // // SWEEP GEN
         // float sweep_amplitude = 0.2f;
         // float sweep_duration = 20.0f;
         // float sweep_max_freq = 10.0f;
@@ -125,11 +117,61 @@ void setInertiaTask(forecast::App &app) {
         t += hw->getDT();
         return test;
     });
-    
+
     // Motor controller
     app.setMotor(new forecast::ForcePID);
-
     // Environment controller
     app.setEnvironment(new forecast::EnvRenderingControl);
 
-} 
+    // Handshake with the PC
+    app.waitConnection();
+
+    // Require parameters for the controllers which are not already initialized
+    app.requireMotorParams();
+    app.requireEnvironmentParams();
+}
+
+void setForecastTask(forecast::App &app) {
+    // Pick which values to log (time is logged as first value automatically)
+    app.setLogger([](float envRef, const forecast::Hardware* hw,
+        const forecast::Controller* motor, forecast::Controller* env) {
+        return std::vector<float>{
+            hw->getTauM(),
+            // envRef,
+            hw->getThetaM(),
+            hw->getDThetaM(),
+            // hw->getDDThetaM(),
+            // hw->getTauSensor(),
+            // hw->getTauE(),
+            // hw->getThetaE(),
+            // hw->getDThetaE(),
+            // hw->getDDThetaE(),
+            // hw->getTauSensor(),
+            // hw->getTauS(),
+            // hw->getDDThetaE(),
+        };
+    });
+
+    // Motor controller
+    app.setMotor(new forecast::ForcePID);
+    // Environment controller
+    app.setEnvironment(new forecast::EnvRenderingControl);
+
+    // Handshake with the PC
+    app.waitConnection();
+
+    float type_of_experiment = app.requireFloatValue("transparency enable_transparency");
+    if(type_of_experiment==0) {
+        // tracking experiment
+        app.setMotorRefSignal();
+        app.requireMotorParams();
+        app.requireEnvironmentParams();
+    } else if(type_of_experiment==1) {
+        // transparency experiment with motor disabled
+        app.setEnvRefSweep();
+    } else if(type_of_experiment==2) {
+        // transparency experiment with motor enabled
+        app.setEnvRefSweep();
+        app.requireMotorParams();
+    }
+}
