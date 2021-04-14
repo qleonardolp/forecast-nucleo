@@ -1,6 +1,6 @@
 #include <mbed.h>
 #include <debug.hpp>
-#include <forecast/App.hpp>
+#include <forecast/MotorEnvApp.hpp>
 #include <forecast/controllers/NoController.hpp>
 #include <forecast/controllers/ForcePID.hpp>
 #include <forecast/controllers/PositionPID.hpp>
@@ -9,12 +9,12 @@
 #include <forecast/controllers/EnvRenderingControl.hpp>
 #include <memory>
 
-void setInertiaTask(forecast::App &app);
-void setHardwareCheckTask(forecast::App &app);
-void setForecastTask(forecast::App &app);
+void setInertiaTask(forecast::MotorEnvApp &app);
+void setHardwareCheckTask(forecast::MotorEnvApp &app);
+void setForecastTask(forecast::MotorEnvApp &app);
 
 int main() {
-    forecast::App app;
+    forecast::MotorEnvApp app;
 
     // set the task
     // setHardwareCheckTask(app);
@@ -28,7 +28,7 @@ int main() {
     app.execControlLoop(static_cast<ulong>(freq));
 }
 
-void setInertiaTask(forecast::App &app) {
+void setInertiaTask(forecast::MotorEnvApp &app) {
     // Pick which values to log (time is logged as first value automatically)
     app.setLogger([](float motorRef, float envRef, const forecast::Hardware* hw,
         const forecast::Controller* motor, forecast::Controller* env) {
@@ -134,7 +134,7 @@ void setInertiaTask(forecast::App &app) {
     app.requireEnvironmentParams();
 }
 
-void setHardwareCheckTask(forecast::App &app) {
+void setHardwareCheckTask(forecast::MotorEnvApp &app) {
     // Pick which values to log (time is logged as first value automatically)
     app.setLogger([](float motorRef, float envRef, const forecast::Hardware* hw,
         const forecast::Controller* motor, forecast::Controller* env) {
@@ -239,7 +239,7 @@ void setHardwareCheckTask(forecast::App &app) {
     app.requireEnvironmentParams();
 }
 
-void setForecastTask(forecast::App &app) {
+void setForecastTask(forecast::MotorEnvApp &app) {
     // Pick which values to log (time is logged as first value automatically)
     app.setLogger([](float motorRef, float envRef, const forecast::Hardware* hw,
         const forecast::Controller* motor, forecast::Controller* env) {
