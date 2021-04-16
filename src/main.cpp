@@ -1,3 +1,6 @@
+
+#ifdef TARGET_STM32F4
+
 #include <mbed.h>
 #include <debug.hpp>
 #include <forecast/MotorEnvApp.hpp>
@@ -313,3 +316,11 @@ void setForecastTask(forecast::MotorEnvApp &app) {
     app.requireMotorParams();
     app.requireEnvironmentParams();
 }
+
+#else
+
+int main() {
+    
+}
+
+#endif //TARGET_STM32F4
