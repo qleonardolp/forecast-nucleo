@@ -54,7 +54,15 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "csignal": "cpp",
+        "hash_map": "cpp",
+        "strstream": "cpp",
+        "complex": "cpp",
+        "numeric": "cpp",
+        "set": "cpp",
+        "cfenv": "cpp",
+        "typeindex": "cpp"
     },
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
