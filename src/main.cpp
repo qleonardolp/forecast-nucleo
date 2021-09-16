@@ -1,68 +1,42 @@
 
-#ifdef TARGET_NUCLEO_L432KC
-
 #include <mbed.h>
-#include <forecast/controllers/ForcePID.hpp>
+#include <forecast/App.hpp>
+#include <forecast/platforms/Hardware.hpp>
 #include <forecast/controllers/PositionPID.hpp>
-#include <forecast/platforms/RPC/RPCApp.hpp>
 #include <debug.hpp>
 
-int main() {
+#include <signal.h>
 
-    forecast::RPCApp app;
-
-
-    app.setLogger([](float motorRef, const forecast::RPCHardware* hw,
-                     const forecast::Controller* motor) {
-        return std::vector<float>{
-            // hw->getTauM(),
-            envRef,
-            hw->getThetaM(), 
-            // hw->getDThetaM(),
-            // hw->getDDThetaM(),
-            // hw->getTauS(),
-        };
-    });
-
-    // Hard-coded reference for the motor
-    app.setMotorRefGen([](const forecast::RPCHardware* hw) {
-        float ref = M_PI/2.0f;
-        static float t = 0.0;
-
-        // // STEP
-        // if(t >= 1.0f){
-        //     ref = 1.0f;
-        // }
-
-        // RAMP
-        // static float ramp = 0.0f;
-        // ramp += 0.4 * hw->getDT();
-        // if (ramp >= 3.5f) {
-        //     ramp = 3.5f;
-        // }
-        // ref = ramp;
-
-        // SIN
-        // ref = 3*sin(2.0*M_PI*0.3*t);
-
-        t += hw->getDT();
-        return ref;
-    });
-
-    // Motor controller
-    app.setMotor(new forecast::PositionPID);
-
-    // Handshake with the PC
-    app.waitConnection();
-
-    // Require parameters for the controllers which are not already initialized
-    app.requireMotorParams();
-
-    // Require the loop frequency
-    auto freq = app.requireFloatValue("Loop frequency");
-
-    // Execute control loop
-    app.execControlLoop(static_cast<ulong>(freq));
+using namespace forecast;
+extern "C" void abort_handler(int signal_number)
+{
+    DEBUG_INFO("SIGNAL HANDLER CALLED\n");
 }
 
-#endif  // TARGET_STM32F4
+int main() {
+    signal(SIGABRT, &abort_handler);
+    App app;
+    Hardware hw(app);
+
+    DEBUG_INFO("App and hw constructed app\n");
+
+    auto p_b = make_Position_P_builder();
+    // auto pd_b = make_Position_P_builder();
+    // auto pid_b = make_Position_PID_builder();
+    // auto pi_b = make_Position_PI_builder();
+
+    // app.get_controller_factory().add("position_P", make_Position_P_builder());
+    // DEBUG_INFO("Position P\n");
+    // app.get_controller_factory().add("position_PD", make_Position_PD_builder());
+    // DEBUG_INFO("Position PD\n");
+    // app.get_controller_factory().add("position_PID", make_Position_PID_builder());
+    // DEBUG_INFO("Position PID\n");
+    // app.get_controller_factory().add("position_PI", make_Position_PI_builder());
+    // DEBUG_INFO("Position PI\n");
+
+    DEBUG_INFO("finished with app\n");
+
+    // app.run();
+
+    return 0;
+}
