@@ -13,14 +13,36 @@ extern "C" void abort_handler(int signal_number)
     DEBUG_INFO("SIGNAL HANDLER CALLED\n");
 }
 
+
+class HW : public IHardware {
+    public:
+    HW(App &app) : IHardware(app) {
+
+    }
+
+    virtual void update(float dt) override {
+        // nothing to do.
+    }
+};
+
 int main() {
     signal(SIGABRT, &abort_handler);
     App app;
-    Hardware hw(app);
+    DEBUG_INFO("App constructed\n");
+    IHardware *hw = new HW(app);
+    app.set_hw(hw);
 
-    DEBUG_INFO("App and hw constructed app\n");
+    DEBUG_INFO("hw constructed\n");
 
-    auto p_b = make_Position_P_builder();
+    auto fn = [](std::vector<float> params) -> Controller * {
+        if (params.empty())
+        return nullptr;
+    
+        return new PositionPID(params[0]);
+    };
+
+    auto p_b = ControllerFactory::Builder{fn, {"Kp"}, {"err"}};
+    auto pd_b = std::move(p_b);
     // auto pd_b = make_Position_P_builder();
     // auto pid_b = make_Position_PID_builder();
     // auto pi_b = make_Position_PI_builder();
