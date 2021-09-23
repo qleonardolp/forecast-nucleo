@@ -17,7 +17,11 @@ extern "C" void abort_handler(int signal_number)
 class HW : public IHardware {
     public:
     HW(App &app) : IHardware(app) {
+        this->logs = { {"err", nullptr}, {"mm", nullptr} };
+    }
 
+    size_t get_motor_num() const {
+        return 1;
     }
 
     virtual void update(float dt) override {
@@ -36,29 +40,31 @@ int main() {
 
     auto fn = [](std::vector<float> params) -> Controller * {
         if (params.empty())
-        return nullptr;
-    
+            return nullptr;
+
         return new PositionPID(params[0]);
     };
 
-    auto p_b = ControllerFactory::Builder{fn, {"Kp"}, {"err"}};
-    auto pd_b = std::move(p_b);
+    // auto p_b = ControllerFactory::Builder{fn, {"Kp"}, {"err"}};
+    // auto pd_b = std::move(p_b);
     // auto pd_b = make_Position_P_builder();
     // auto pid_b = make_Position_PID_builder();
     // auto pi_b = make_Position_PI_builder();
 
-    // app.get_controller_factory().add("position_P", make_Position_P_builder());
-    // DEBUG_INFO("Position P\n");
-    // app.get_controller_factory().add("position_PD", make_Position_PD_builder());
-    // DEBUG_INFO("Position PD\n");
-    // app.get_controller_factory().add("position_PID", make_Position_PID_builder());
-    // DEBUG_INFO("Position PID\n");
-    // app.get_controller_factory().add("position_PI", make_Position_PI_builder());
-    // DEBUG_INFO("Position PI\n");
+    // app.get_ref_gen_factory().add("sin", make_sin)
+
+    app.get_controller_factory().add("position_P", make_Position_P_builder());
+    DEBUG_INFO("Position P\n");
+    app.get_controller_factory().add("position_PD", make_Position_PD_builder());
+    DEBUG_INFO("Position PD\n");
+    app.get_controller_factory().add("position_PID", make_Position_PID_builder());
+    DEBUG_INFO("Position PID\n");
+    app.get_controller_factory().add("position_PI", make_Position_PI_builder());
+    DEBUG_INFO("Position PI\n");
 
     DEBUG_INFO("finished with app\n");
 
-    // app.run();
+    app.run();
 
     return 0;
 }
