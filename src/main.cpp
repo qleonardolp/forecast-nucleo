@@ -3,6 +3,7 @@
 #include <forecast/App.hpp>
 #include <forecast/platforms/Hardware.hpp>
 #include <forecast/controllers/PositionPID.hpp>
+#include <forecast/reference_generators/ConstantRefGen.hpp>
 #include <debug.hpp>
 
 #include <signal.h>
@@ -45,13 +46,7 @@ int main() {
         return new PositionPID(params[0]);
     };
 
-    // auto p_b = ControllerFactory::Builder{fn, {"Kp"}, {"err"}};
-    // auto pd_b = std::move(p_b);
-    // auto pd_b = make_Position_P_builder();
-    // auto pid_b = make_Position_PID_builder();
-    // auto pi_b = make_Position_PI_builder();
-
-    // app.get_ref_gen_factory().add("sin", make_sin)
+    app.get_ref_gen_factory().add("sin", make_constant_ref_gen_builder());
 
     app.get_controller_factory().add("position_P", make_Position_P_builder());
     DEBUG_INFO("Position P\n");
