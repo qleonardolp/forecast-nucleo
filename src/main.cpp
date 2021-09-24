@@ -34,7 +34,7 @@ int main() {
     signal(SIGABRT, &abort_handler);
     App app;
     DEBUG_INFO("App constructed\n");
-    IHardware *hw = new HW(app);
+    IHardware *hw = new Hardware(app);
     app.set_hw(hw);
 
     DEBUG_INFO("hw constructed\n");
