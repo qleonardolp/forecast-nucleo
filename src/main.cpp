@@ -15,36 +15,15 @@ extern "C" void abort_handler(int signal_number)
 }
 
 
-class HW : public IHardware {
-    public:
-    HW(App &app) : IHardware(app) {
-        this->logs = { {"err", nullptr}, {"mm", nullptr} };
-    }
-
-    size_t get_motor_num() const {
-        return 1;
-    }
-
-    virtual void update(float dt) override {
-        // nothing to do.
-    }
-};
-
 int main() {
     signal(SIGABRT, &abort_handler);
     App app;
     DEBUG_INFO("App constructed\n");
-    IHardware *hw = new Hardware(app);
-    app.set_hw(hw);
+    Hardware hw(app);
+    DEBUG_INFO("%u\n", hw.init());
+    app.set_hw(&hw);
 
     DEBUG_INFO("hw constructed\n");
-
-    auto fn = [](std::vector<float> params) -> Controller * {
-        if (params.empty())
-            return nullptr;
-
-        return new PositionPID(params[0]);
-    };
 
     app.get_ref_gen_factory().add("sin", make_constant_ref_gen_builder());
 
