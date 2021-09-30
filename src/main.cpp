@@ -1,7 +1,7 @@
 
 #include <mbed.h>
 #include <forecast/App.hpp>
-#include <forecast/platforms/Hardware.hpp>
+#include <forecast/platforms//workbench/Hardware.hpp>
 #include <forecast/controllers/PositionPID.hpp>
 #include <forecast/reference_generators/ConstantRefGen.hpp>
 #include <debug.hpp>
@@ -14,18 +14,17 @@ extern "C" void abort_handler(int signal_number)
     DEBUG_INFO("SIGNAL HANDLER CALLED\n");
 }
 
-
 int main() {
     signal(SIGABRT, &abort_handler);
     App app;
     DEBUG_INFO("App constructed\n");
     Hardware hw(app);
-    DEBUG_INFO("%u\n", hw.init());
+    hw.init();
     app.set_hw(&hw);
 
     DEBUG_INFO("hw constructed\n");
 
-    app.get_ref_gen_factory().add("sin", make_constant_ref_gen_builder());
+    app.get_ref_gen_factory().add("constant", make_constant_ref_gen_builder());
 
     app.get_controller_factory().add("position_P", make_Position_P_builder());
     DEBUG_INFO("Position P\n");
