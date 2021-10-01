@@ -3,6 +3,7 @@
 #include <forecast/App.hpp>
 #include <forecast/platforms//workbench/Hardware.hpp>
 #include <forecast/controllers/PositionPID.hpp>
+#include <forecast/controllers/SpeedPI.hpp>
 #include <forecast/reference_generators/ConstantRefGen.hpp>
 #include <debug.hpp>
 
@@ -34,6 +35,8 @@ int main() {
     DEBUG_INFO("Position PID\n");
     app.get_controller_factory().add("position_PI", make_Position_PI_builder());
     DEBUG_INFO("Position PI\n");
+    app.get_controller_factory().add("speed_PI", make_Speed_PI_builder());
+    DEBUG_INFO("Speed PI\n");
 
     DEBUG_INFO("finished with app\n");
 
