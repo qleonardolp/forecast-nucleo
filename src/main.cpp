@@ -1,9 +1,10 @@
 
 #include <mbed.h>
 #include <forecast/App.hpp>
-#include <forecast/platforms//workbench/Hardware.hpp>
+#include <forecast/platforms/workbench/Hardware.hpp>
 #include <forecast/controllers/PositionPID.hpp>
 #include <forecast/controllers/SpeedPI.hpp>
+#include <forecast/controllers/VelocityPID.hpp>
 #include <forecast/reference_generators/ConstantRefGen.hpp>
 #include <debug.hpp>
 
@@ -37,6 +38,8 @@ int main() {
     DEBUG_INFO("Position PI\n");
     app.get_controller_factory().add("speed_PI", make_Speed_PI_builder());
     DEBUG_INFO("Speed PI\n");
+    app.get_controller_factory().add("velocity_PID", make_Velocity_PID_builder());
+    DEBUG_INFO("Velocity PID\n");
 
     DEBUG_INFO("finished with app\n");
 
