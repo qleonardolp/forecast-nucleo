@@ -5,7 +5,10 @@
 #include <forecast/controllers/PositionPID.hpp>
 #include <forecast/controllers/SpeedPI.hpp>
 #include <forecast/controllers/VelocityPID.hpp>
+#include <forecast/controllers/EnvRenderingControl.hpp>
 #include <forecast/reference_generators/ConstantRefGen.hpp>
+#include <forecast/reference_generators/SmoothStep.hpp>
+#include <forecast/reference_generators/Sinusoid.hpp>
 #include <debug.hpp>
 
 #include <signal.h>
@@ -27,6 +30,8 @@ int main() {
     DEBUG_INFO("hw constructed\n");
 
     app.get_ref_gen_factory().add("constant", make_constant_ref_gen_builder());
+    app.get_ref_gen_factory().add("Smooth Step", make_smoothstep_ref_gen_builder());
+    app.get_ref_gen_factory().add("Sinusoid", make_sinusoid_ref_gen_builder());
 
     app.get_controller_factory().add("position_P", make_Position_P_builder());
     DEBUG_INFO("Position P\n");
@@ -40,6 +45,8 @@ int main() {
     DEBUG_INFO("Speed PI\n");
     app.get_controller_factory().add("velocity_PID", make_Velocity_PID_builder());
     DEBUG_INFO("Velocity PID\n");
+    app.get_controller_factory().add("EnvRender_damp", make_EnvRenderingController_damped());
+    app.get_controller_factory().add("EnvRender", make_EnvRenderingController());
 
     DEBUG_INFO("finished with app\n");
 
