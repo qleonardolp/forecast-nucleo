@@ -3,12 +3,16 @@
 #include <forecast/App.hpp>
 #include <forecast/platforms/workbench/Hardware.hpp>
 #include <forecast/controllers/PositionPID.hpp>
-#include <forecast/controllers/SpeedPI.hpp>
 #include <forecast/controllers/VelocityPID.hpp>
+#include <forecast/controllers/ForcePID.hpp>
+#include <forecast/controllers/NoController.hpp>
 #include <forecast/controllers/EnvRenderingControl.hpp>
+
 #include <forecast/reference_generators/ConstantRefGen.hpp>
 #include <forecast/reference_generators/SmoothStep.hpp>
 #include <forecast/reference_generators/Sinusoid.hpp>
+#include <forecast/reference_generators/Ramp.hpp>
+
 #include <debug.hpp>
 
 #include <signal.h>
@@ -31,22 +35,15 @@ int main() {
 
     app.get_ref_gen_factory().add("constant", make_constant_ref_gen_builder());
     app.get_ref_gen_factory().add("Smooth Step", make_smoothstep_ref_gen_builder());
+    app.get_ref_gen_factory().add("Ramp", make_ramp_ref_gen_builder());
     app.get_ref_gen_factory().add("Sinusoid", make_sinusoid_ref_gen_builder());
 
-    app.get_controller_factory().add("position_P", make_Position_P_builder());
-    DEBUG_INFO("Position P\n");
-    app.get_controller_factory().add("position_PD", make_Position_PD_builder());
-    DEBUG_INFO("Position PD\n");
-    app.get_controller_factory().add("position_PID", make_Position_PID_builder());
-    DEBUG_INFO("Position PID\n");
-    app.get_controller_factory().add("position_PI", make_Position_PI_builder());
-    DEBUG_INFO("Position PI\n");
-    app.get_controller_factory().add("speed_PI", make_Speed_PI_builder());
-    DEBUG_INFO("Speed PI\n");
-    app.get_controller_factory().add("velocity_PID", make_Velocity_PID_builder());
-    DEBUG_INFO("Velocity PID\n");
-    app.get_controller_factory().add("EnvRender_damp", make_EnvRenderingController_damped());
-    app.get_controller_factory().add("EnvRender", make_EnvRenderingController());
+    app.get_controller_factory().add("PositionPID", make_Position_PID_builder());
+    app.get_controller_factory().add("VelocityPID", make_Velocity_PID_builder());
+    app.get_controller_factory().add("ForcePID", make_Force_PID_builder());
+    app.get_controller_factory().add("Environment", make_EnvRenderingController_damped());
+    app.get_controller_factory().add("NoController", make_no_controller_builder());
+    //app.get_controller_factory().add("EnvRender", make_EnvRenderingController());
 
     DEBUG_INFO("finished with app\n");
 
