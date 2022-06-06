@@ -12,6 +12,7 @@
 #include <forecast/reference_generators/SmoothStep.hpp>
 #include <forecast/reference_generators/Sinusoid.hpp>
 #include <forecast/reference_generators/Ramp.hpp>
+#include <forecast/reference_generators/Sweep.hpp>
 
 #include <debug.hpp>
 
@@ -37,6 +38,7 @@ int main() {
     app.get_ref_gen_factory().add("Smooth Step", make_smoothstep_ref_gen_builder());
     app.get_ref_gen_factory().add("Ramp", make_ramp_ref_gen_builder());
     app.get_ref_gen_factory().add("Sinusoid", make_sinusoid_ref_gen_builder());
+    app.get_ref_gen_factory().add("Sweep", make_sweep_ref_gen_builder());
 
     app.get_controller_factory().add("PositionPID", make_Position_PID_builder());
     app.get_controller_factory().add("VelocityPID", make_Velocity_PID_builder());
