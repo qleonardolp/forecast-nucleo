@@ -1,55 +1,29 @@
-# ForecastNucleoFramework test
+# Forecast Nucleo Framework - Legged Robotics Group (LegRo)
 
-## Get the build system
-1. Install [Visual Studio Code](https://code.visualstudio.com/). On Ubuntu 20.04 or later an easy to install snap is also available
+Este repositório é dedicado ao desenvolvimento do software embarcado na placa STM32 NUCLEO-F446RE com a bancada de testes IC2D usando a interface gráfica ForceCAST Studio. Inicialmente esse repositório se destina a ser o ambiente de desenvolvimento dedicado à IC2D, sem interação com os repositórios originais do **_AltairLab_**, apesar de herdar o histórico git original. Para acessar o repositório orginal, [clique aqui](https://gitlab.com/altairLab/elasticteam/ForecastNucleoFramework-test/-/tree/NEXT/).
+
+Outro objetivo desse repositório é servir de base para o versionamento do código fonte, enquanto utilizamos uma imagem Docker para facilitar o uso para diversos usuários. É recomendada experiência prévia mínina com _git_ e _linux_ para configuração desse ambiente de desenvolvimento.
+
+## Configuração
+
+1. Em sua máquina é necessário instalar o _git_ e, recomendado, o editor [Visual Studio Code](https://code.visualstudio.com/):
 
     ```bash
+    sudo apt install git 
     sudo snap install code --classic
     ```
-    Notice the sudo command which will ask for root user privileges
 
-2. Get the [PlatformIO](https://platformio.org/platformio-ide) VSCode extension following the instructions on the given link.
+2. Instale o Docker em seu computador seguindo as instruções desse [repositório](https://github.com/lomcin/linux-stuffs#docker);
 
-    If you are having issues on this step please ensure you have python3 and python3-venv installed.
-    ```bash
-    sudo apt install python3-venv
-    ```
-3. Install Git.
-    To get the firmware you are required to clone and navigate git repositories. Ensure you machine has Git installed by typing
-    ```bash
-    git --version
-    ```
-    If you get an error message make sure to install git. For example on Ubuntu it's sufficient to type
-    ```bash
-    sudo apt install git
-    ```
+3. Gere a imagem e inicialize o _container_ 'nucleo-legged' segundo instruções desse [repositório](https://github.com/lomcin/legged_ws).
 
-## Get the firmware
 
-1. Clone this repository and enter the directory. Do so by typing in the terminal:
-```bash
-git clone -b NEXT https://gitlab.com/altairLab/elasticteam/ForecastNucleoFramework-test.git forecast-mbed
+## Observações
 
-cd forecast-mbed
-```
+A configuração deste repositório git, assim como a adoção da imagem docker, auxilia o desenvolvimento do software automatizando algumas configurações prévias e evitando erros provenientes de instalações locais (em cada computador). Aqui não é necessário resovler a instalação do [PlatformIO](https://docs.platformio.org/en/latest/what-is-platformio.html), muito menos a versão compatível do Python (3.6+ até 3.9!). Isso já está configurado na imagem docker. Quanto configuração original do repositório, tal como descrita [aqui](https://gitlab.com/altairLab/elasticteam/ForecastNucleoFramework-test/-/tree/NEXT/#get-the-firmware), também já está resolvida nesse novo repositório.
 
-2. Enter the 'lib' directory and clone the main framework
-```bash
-cd lib
+A única diferença é a necessidade de utilzarmos o PlatformIO pela linha de comando (CLI), já que não será feito uso da extensão no VS Code. A seguir estão as instruções para realizar compilação e envio para placa com o PlatformIO.
 
-git clone -b develop-next https://gitlab.com/altairLab/elasticteam/forecastnucleoframework
-```
+## Compilação e Envio: PlatformIO CLI
 
-## Start VSCode
-
-Open VSCode and then File > Open Folder...
-Select the forecast-mbed directory created beforehand (the root of the PlatformIO project, NOT the one in the 'lib' directory).
-
-## Upload the code
-
-When you are done developing, make sure to upload the firmware.
-Do so by accessing the PlatformIO extension from the VSCode Extension Toolbar and then:
-1. Select 'workbench-release' from the Project Tasks menu.
-2. Select General > Upload
-3. Wait for the upload to be completed.
-4. Connect to the board from the user interface.
+WIP...
