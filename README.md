@@ -24,6 +24,11 @@ A configuração deste repositório git, assim como a adoção da imagem docker,
 
 A única diferença é a necessidade de utilzarmos o PlatformIO pela linha de comando (CLI), já que não será feito uso da extensão no VS Code. A seguir estão as instruções para realizar compilação e envio para placa com o PlatformIO.
 
+**Nota: caso precise clonar este repositório separadamente use:**
+```bash
+git clone --recurse-submodules git@github.com:qleonardolp/forecast-nucleo.git
+```
+
 ## Compilação e Envio: PlatformIO CLI
 
 WIP...
