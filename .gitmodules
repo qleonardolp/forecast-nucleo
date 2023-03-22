@@ -2,3 +2,11 @@
 	path = lib/forecastnucleoframework
 	url = https://gitlab.com/altairLab/elasticteam/forecastnucleoframework
 	branch = develop-next
+[submodule "lib/utility-lib"]
+	path = lib/utility-lib
+	url = git@gitlab.com:qleonardolp/utility-lib.git
+	branch = legro-ic2d
+[submodule "lib/hw-lib"]
+	path = lib/hw-lib
+	url = git@gitlab.com:qleonardolp/hw-lib.git
+	branch = legro-ic2d
