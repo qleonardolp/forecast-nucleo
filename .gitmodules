@@ -1,7 +1,3 @@
-[submodule "lib/forecastnucleoframework"]
-	path = lib/forecastnucleoframework
-	url = https://gitlab.com/altairLab/elasticteam/forecastnucleoframework
-	branch = develop-next
 [submodule "lib/utility-lib"]
 	path = lib/utility-lib
 	url = git@gitlab.com:qleonardolp/utility-lib.git
