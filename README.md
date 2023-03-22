@@ -47,3 +47,25 @@ WIP...
     ```bash
     pio run -t clean
     ```
+
+## Configuração VS Code
+
+Para facilitar o desenvolvimento com o VS Code, algumas configurações foram necessárias ([ver arquivo](.vscode/c_cpp_properties.json)):
+
+1. Adicionado o caminho dos cabeçalhos do framework Mbed ao _includePath_:
+    ```
+    "includePath": [
+                "${workspaceFolder}/**",
+                "${HOME}/.platformio/packages/framework-mbed/**"
+            ]
+    ```
+
+2. Adicionado definições para facilitar a visualização do código:
+
+    ```
+    "defines": [
+                "TARGET_STM32F4",
+                "DEVICE_ANALOGOUT",
+                "IC2D_SETUP"
+            ]
+    ```
