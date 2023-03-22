@@ -65,6 +65,5 @@
         "typeindex": "cpp"
     },
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true,
-    "ros.distro": "noetic"
+    "python.linting.enabled": true
 }
