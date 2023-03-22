@@ -10,4 +10,4 @@
 [submodule "framework"]
 	path = lib/forecastnucleoframework
 	url = git@gitlab.com:qleonardolp/forecastnucleoframework.git
-	branch = develop-next
+	branch = legro-ic2d
