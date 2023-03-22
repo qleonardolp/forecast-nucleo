@@ -32,3 +32,18 @@ git clone --recurse-submodules git@github.com:qleonardolp/forecast-nucleo.git
 ## Compilação e Envio: PlatformIO CLI
 
 WIP...
+
+1. Compilando:
+    ```bash
+    pio run -e <nome_do_ambiente>
+    ```
+
+2. Compilando e enviando para placa:
+    ```bash
+    pio run -e <nome_do_ambiente> -t upload
+    ```
+
+3. Limpando o projeto:
+    ```bash
+    pio run -t clean
+    ```
