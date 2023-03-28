@@ -7,6 +7,8 @@
 #include <forecast/controllers/ForcePID.hpp>
 #include <forecast/controllers/NoController.hpp>
 #include <forecast/controllers/EnvRenderingControl.hpp>
+#include <forecast/controllers/AdmittanceControl.hpp>
+#include <forecast/controllers/ImpedanceControl.hpp>
 
 #include <forecast/reference_generators/ConstantRefGen.hpp>
 #include <forecast/reference_generators/SmoothStep.hpp>
@@ -45,7 +47,9 @@ int main() {
     app.get_controller_factory().add("ForcePID", make_Force_PID_builder());
     app.get_controller_factory().add("Environment", make_EnvRenderingController_damped());
     app.get_controller_factory().add("NoController", make_no_controller_builder());
-    //app.get_controller_factory().add("EnvRender", make_EnvRenderingController());
+    app.get_controller_factory().add("Admittance", make_admittance_control_builder());
+    app.get_controller_factory().add("Impedance", make_impedance_control_builder());
+
 
     DEBUG_INFO("finished with app\n");
 
