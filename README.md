@@ -17,6 +17,16 @@ Outro objetivo desse repositório é servir de base para o versionamento do cód
 
 3. Gere a imagem e inicialize o _container_ 'nucleo-legged' segundo instruções desse [repositório](https://github.com/lomcin/legged_ws).
 
+## Instalação do programa ForeCAST NEXT
+
+1. Baixar o arquivo 'Forecast NEXT-0.0.1.AppImage'
+
+2. No terminal, execute os seguintes comandos:
+
+    ```bash
+    chmod u+x Forecast\ NEXT-0.0.1.AppImage
+    sudo apt install libfuse2
+    ```
 
 ## Observações
 
