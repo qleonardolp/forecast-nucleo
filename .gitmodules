@@ -1,15 +1,14 @@
 [submodule "lib/utility-lib"]
 	path = lib/utility-lib
-	url = git@gitlab.com:qleonardolp/utility-lib.git
+	url = https://gitlab.com/qleonardolp/utility-lib.git
 	branch = legro-ic2d
 [submodule "lib/hw-lib"]
 	path = lib/hw-lib
-	url = git@gitlab.com:qleonardolp/hw-lib.git
+	url = https://gitlab.com/qleonardolp/hw-lib.git
 	branch = legro-ic2d
-	
 [submodule "framework"]
 	path = lib/forecastnucleoframework
-	url = git@gitlab.com:qleonardolp/forecastnucleoframework.git
+	url = https://gitlab.com/qleonardolp/forecastnucleoframework.git
 	branch = legro-ic2d
 [submodule "Eigen3"]
 	path = lib/Eigen3
