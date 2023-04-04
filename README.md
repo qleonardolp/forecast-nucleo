@@ -28,6 +28,8 @@ Outro objetivo desse repositório é servir de base para o versionamento do cód
     sudo apt install libfuse2
     ```
 
+3. Configure o acesso do PlatformIO ao usb do computador segundo essas [instruções](https://docs.platformio.org/en/latest/core/installation/udev-rules.html).
+
 ## Observações
 
 A configuração deste repositório git, assim como a adoção da imagem docker, auxilia o desenvolvimento do software automatizando algumas configurações prévias e evitando erros provenientes de instalações locais (em cada computador). Aqui não é necessário resovler a instalação do [PlatformIO](https://docs.platformio.org/en/latest/what-is-platformio.html), muito menos a versão compatível do Python (3.6+ até 3.9!). Isso já está configurado na imagem docker. Quanto configuração original do repositório, tal como descrita [aqui](https://gitlab.com/altairLab/elasticteam/ForecastNucleoFramework-test/-/tree/NEXT/#get-the-firmware), também já está resolvida nesse novo repositório.
