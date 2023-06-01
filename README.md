@@ -81,3 +81,10 @@ Para facilitar o desenvolvimento com o VS Code, algumas configurações foram ne
                 "IC2D_SETUP"
             ]
     ```
+
+## Documentação (Doxygen)
+
+Executando a geração da documentação (comando na raiz do repositório):
+```bash
+doxygen Doxyfile
+```

@@ -1,7 +1,19 @@
+/**
+ * @file main.cpp
+ * @author AltairLab
+ * @brief Main file with App and Hardware classes instances.
+ * @version 0.1
+ * @date 2023-06-01
+ *
+ * @copyright Copyright (c) 2023
+ * @details App and Hardware classes instances. Refgens and controllers are added here.
+ */
 
 #include <mbed.h>
 #include <forecast/App.hpp>
 #include <forecast/platforms/workbench/Hardware.hpp>
+
+/** Controllers Headers */
 #include <forecast/controllers/PositionPID.hpp>
 #include <forecast/controllers/VelocityPID.hpp>
 #include <forecast/controllers/ForcePID.hpp>
@@ -11,25 +23,28 @@
 #include <forecast/controllers/ImpedanceControl.hpp>
 #include <forecast/controllers/Bypass.hpp>
 
+/** Refgen Headers */
 #include <forecast/reference_generators/ConstantRefGen.hpp>
 #include <forecast/reference_generators/SmoothStep.hpp>
 #include <forecast/reference_generators/Sinusoid.hpp>
 #include <forecast/reference_generators/Ramp.hpp>
 #include <forecast/reference_generators/Sweep.hpp>
 
+/** Operators Headers */
 #include <forecast/operators/SumOperation.hpp>
 
 #include <debug.hpp>
-
 #include <signal.h>
 
 using namespace forecast;
+
 extern "C" void abort_handler(int signal_number)
 {
     DEBUG_INFO("SIGNAL HANDLER CALLED\n");
 }
 
-int main() {
+int main()
+{
     signal(SIGABRT, &abort_handler);
     App app;
     DEBUG_INFO("App constructed\n");
@@ -55,7 +70,6 @@ int main() {
     app.get_controller_factory().add("Bypass", make_Bypass_builder());
 
     app.get_operator_factory().add("Sum", make_sum_op_builder());
-
 
     DEBUG_INFO("finished with app\n");
 
