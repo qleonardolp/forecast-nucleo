@@ -17,6 +17,8 @@
 #include <forecast/reference_generators/Ramp.hpp>
 #include <forecast/reference_generators/Sweep.hpp>
 
+#include <forecast/operators/SumOperation.hpp>
+
 #include <debug.hpp>
 
 #include <signal.h>
@@ -51,6 +53,8 @@ int main() {
     app.get_controller_factory().add("Admittance", make_admittance_control_builder());
     app.get_controller_factory().add("Impedance", make_impedance_control_builder());
     app.get_controller_factory().add("Bypass", make_Bypass_builder());
+
+    app.get_operator_factory().add("Sum", make_sum_op_builder());
 
 
     DEBUG_INFO("finished with app\n");
