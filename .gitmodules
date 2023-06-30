@@ -12,4 +12,4 @@
 	branch = legro-ic2d
 [submodule "Eigen3"]
 	path = lib/Eigen3
-	url = git@github.com:bolderflight/eigen.git
+	url = https://github.com/bolderflight/eigen.git
